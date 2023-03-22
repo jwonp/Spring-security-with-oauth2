@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller //View를 리턴하겠다
 public class IndexController {
+
   @Autowired
   private UserRepository userRepository;
 
@@ -31,7 +32,9 @@ public class IndexController {
     @AuthenticationPrincipal PrincipalDetails userDetails //DI(의존성 주입)
   ) {
     System.out.println("/test/login ============");
-
+    if (authentication == null) {
+      return "세션 정보가 없습니다.";
+    }
     //Authentication
     PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
     System.out.println("authentication: " + principalDetails.getUser());
@@ -89,6 +92,7 @@ public class IndexController {
   //SecurityConfig.java 설정 후 에 자동 생성된 login 페이지로 넘어가지 않음
   @GetMapping("/loginForm")
   public String loginForm() {
+    System.out.println("loginForm");
     return "loginForm";
   }
 
